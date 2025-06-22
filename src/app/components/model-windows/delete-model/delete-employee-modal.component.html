@@ -1,0 +1,18 @@
+<div class="modal-header bg-danger text-white">
+  <h5 class="modal-title">Удаление сотрудника</h5>
+  <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
+</div>
+
+<div class="modal-body">
+  <p>Вы уверены, что хотите удалить сотрудника?</p>
+  <div class="alert alert-danger">
+    <strong>{{ fullName }}</strong><br>
+    Отдел: {{ employee.departmentName }}
+  </div>
+  <p class="text-muted">Это действие нельзя будет отменить.</p>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss()">Отмена</button>
+  <button type="button" class="btn btn-danger" (click)="confirmDelete()">Удалить</button>
+</div>

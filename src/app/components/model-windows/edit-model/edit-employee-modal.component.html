@@ -1,0 +1,46 @@
+<div class="modal-header bg-warning">
+  <h5 class="modal-title">Редактирование сотрудника</h5>
+  <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
+</div>
+
+<div class="modal-body">
+  <form>
+    <div class="mb-3">
+      <label class="form-label">ФИО</label>
+      <input type="text" class="form-control"
+             [(ngModel)]="fullName" name="fullName">
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label">Дата рождения</label>
+        <input type="date" class="form-control" [(ngModel)]="employee.birthDayDate" name="birthDate">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Дата устройства</label>
+        <input type="date" class="form-control" [(ngModel)]="employee.hireDate" name="hireDate">
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label">Отдел</label>
+        <select class="form-select" [(ngModel)]="employee.departmentId" name="department">
+          <option value="IT">IT</option>
+          <option value="Маркетинг">Маркетинг</option>
+          <option value="Продажи">Продажи</option>
+          <option value="Бухгалтерия">Бухгалтерия</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Зарплата</label>
+        <input type="number" class="form-control" [(ngModel)]="employee.salary" name="salary">
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss()">Отмена</button>
+  <button type="button" class="btn btn-warning" (click)="save()">Сохранить</button>
+</div>

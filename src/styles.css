@@ -1,0 +1,18 @@
+/* You can add global styles to this file, and also import other style files */
+.employee-photo {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+}
+
+.jumbotron {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.table th {
+  font-weight: 600;
+}
+
+.navbar {
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}

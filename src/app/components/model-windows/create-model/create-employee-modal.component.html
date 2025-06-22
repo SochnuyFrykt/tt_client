@@ -1,0 +1,71 @@
+<div class="modal-header bg-primary text-white">
+  <h5>Новый сотрудник</h5>
+  <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
+</div>
+
+<div class="modal-body">
+  <form>
+    <div class="mb-3">
+      <label class="form-label">ФИО</label>
+      <input type="text" class="form-control" [(ngModel)]="Initials" name="fullName">
+    </div>
+
+    <div class="mb-3">
+      <div class="m-1">
+        <label class="form-label">Отдел</label>
+        <button class="ms-3 btn btn-outline-success" (click)="openCreateDepartmentModel()">Добавить отдел</button>
+      </div>
+
+      <select class="form-select" [(ngModel)]="Department" name="department">
+        <option [ngValue]="null" disabled>Выберите отдел</option>
+        <option *ngFor="let dep of departments"
+                [ngValue]="dep.id">
+          {{ dep.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label">Дата рождения</label>
+        <div class="input-group">
+          <input
+            class="form-control"
+            placeholder="dd.mm.yyyy"
+            name="hireDate"
+            [(ngModel)]="DataBirthday"
+            ngbDatepicker
+            #db="ngbDatepicker"
+          />
+          <button class="btn btn-outline-secondary bi bi-calendar3" (click)="db.toggle()" type="button"></button>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Дата устройства</label>
+        <div class="input-group">
+          <input
+            class="form-control"
+            placeholder="dd.mm.yyyy"
+            name="hireDate"
+            [(ngModel)]="HireDate"
+            ngbDatepicker
+            #dh="ngbDatepicker"
+          />
+          <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dh.toggle()" type="button"></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label class="form-label">Зарплата</label>
+        <input type="number" class="form-control" [(ngModel)]="Salary" name="salary">
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss()">Отмена</button>
+  <button type="button" class="btn btn-primary" (click)="confirmCreate()">Добавить</button>
+</div>

@@ -1,0 +1,96 @@
+<div class="mb-4">
+  <h2>Наши сотрудники</h2>
+  <p class="text-muted">Команда профессионалов, создающая будущее</p>
+</div>
+
+<div class="d-flex justify-content-between mb-4">
+  <div>
+    <button class="btn btn-outline-primary" (click)="openCreateModal()">
+      Добавить сотрудника
+    </button>
+    <button class="btn btn-outline-secondary ms-2" (click)="resetFilters()">
+      Сбросить фильтры
+    </button>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-hover">
+    <thead class="table-dark">
+    <tr>
+      <th (click)="sortData('departmentName')">
+        Отдел {{ getSortIcon('departmentName') }}
+      </th>
+      <th (click)="sortData('surname')">
+        ФИО {{ getSortIcon('surname') }}
+      </th>
+      <th (click)="sortData('birthday')">
+        Дата рождения {{ getSortIcon('birthday') }}
+      </th>
+      <th (click)="sortData('startWorking')">
+        Дата устройства {{ getSortIcon('startWorking') }}
+      </th>
+      <th (click)="sortData('salary')">
+        Зарплата {{ getSortIcon('salary') }}
+      </th>
+      <th>Взаимодействие</th>
+    </tr>
+    <!-- Строка фильтров -->
+    <tr>
+      <td>
+        <input type="text" class="form-control"
+               [(ngModel)]="departmentNameFilter"
+               (input)="applyFilters()"
+               placeholder="Фильтр...">
+      </td>
+      <td>
+        <input type="text" class="form-control"
+               [(ngModel)]="fullNameFilter"
+               (input)="applyFilters()"
+               placeholder="ФИО...">
+      </td>
+      <td>
+<!--        <input type="date" class="form-control"-->
+<!--               [(ngModel)]="birthDayDateFilter"-->
+<!--               (input)="applyFilters()">-->
+        <input type="text" class="form-control" ngbDatepicker #db="ngbDatepicker" (click)="db.toggle()"/>
+      </td>
+      <td>
+<!--        <input type="date" class="form-control"-->
+<!--               [(ngModel)]="hireDateFilter"-->
+<!--               (input)="applyFilters()">-->
+        <input type="text" class="form-control" ngbDatepicker #dh="ngbDatepicker"
+               [(ngModel)]="hireDateFilter"
+               (click)="dh.toggle()"/>
+      </td>
+      <td>
+        <input type="text" class="form-control"
+               [(ngModel)]="salaryFilter"
+               (input)="applyFilters()"
+               placeholder="Зарплата...">
+      </td>
+      <td></td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngIf="loading">
+      <td colspan="6" class="text-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Загрузка...</span>
+        </div>
+      </td>
+    </tr>
+    <tr *ngFor="let emp of employees">
+      <td>{{ emp.departmentName }}</td>
+      <td>{{ emp.surname }} {{ emp.name }} {{ emp.secondName }}</td>
+      <td>{{ emp.birthday | date:"dd.mm.yyyy" }}</td>
+      <td>{{ emp.startWorking | date:"dd.mm.yyyy" }}</td>
+      <td>{{ emp.salary }}</td>
+      <td>
+        <button class="btn btn-warning me-2" (click)="openEditModal(emp)">Изменить</button>
+        <button class="btn btn-danger" (click)="openDeleteModal(emp)">Удалить</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
