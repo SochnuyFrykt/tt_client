@@ -14,11 +14,31 @@
     <div class="row mb-3">
       <div class="col-md-6">
         <label class="form-label">Дата рождения</label>
-        <input type="date" class="form-control" [(ngModel)]="employee.birthday" name="birthDate">
+        <div class="input-group">
+          <input
+            class="form-control"
+            placeholder="yyyy-MM-dd"
+            name="birth"
+            [(ngModel)]="birthdayModel"
+            ngbDatepicker
+            #db="ngbDatepicker"
+          />
+          <button class="btn btn-outline-secondary bi bi-calendar3" (click)="db.toggle()" type="button"></button>
+        </div>
       </div>
       <div class="col-md-6">
         <label class="form-label">Дата устройства</label>
-        <input type="date" class="form-control" [(ngModel)]="employee.startWorking" name="hireDate">
+        <div class="input-group">
+          <input
+            class="form-control"
+            placeholder="yyyy-MM-dd"
+            name="startWorking"
+            [(ngModel)]="startWorkingDateModel"
+            ngbDatepicker
+            #dh="ngbDatepicker"
+          />
+          <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dh.toggle()" type="button"></button>
+        </div>
       </div>
     </div>
 
@@ -26,10 +46,10 @@
       <div class="col-md-6">
         <label class="form-label">Отдел</label>
         <select class="form-select" [(ngModel)]="employee.departmentId" name="department">
-          <option value="IT">IT</option>
-          <option value="Маркетинг">Маркетинг</option>
-          <option value="Продажи">Продажи</option>
-          <option value="Бухгалтерия">Бухгалтерия</option>
+          <option *ngFor="let dep of departments"
+                  [ngValue]="dep.id">
+            {{ dep.name }}
+          </option>
         </select>
       </div>
       <div class="col-md-6">

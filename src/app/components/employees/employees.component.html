@@ -35,7 +35,6 @@
       </th>
       <th>Взаимодействие</th>
     </tr>
-    <!-- Строка фильтров -->
     <tr>
       <td>
         <input type="text" class="form-control"
@@ -50,18 +49,32 @@
                placeholder="ФИО...">
       </td>
       <td>
-<!--        <input type="date" class="form-control"-->
-<!--               [(ngModel)]="birthDayDateFilter"-->
-<!--               (input)="applyFilters()">-->
-        <input type="text" class="form-control" ngbDatepicker #db="ngbDatepicker" (click)="db.toggle()"/>
+        <div class="input-group">
+          <input
+            class="form-control"
+            placeholder="dd.mm.yyyy"
+            name="hireDate"
+            [(ngModel)]="birthDayDateFilter"
+            (ngModelChange)="applyFilters()"
+            ngbDatepicker
+            #db="ngbDatepicker"
+          />
+          <button class="btn btn-outline-secondary bi bi-calendar3" (click)="db.toggle()" type="button"></button>
+        </div>
       </td>
       <td>
-<!--        <input type="date" class="form-control"-->
-<!--               [(ngModel)]="hireDateFilter"-->
-<!--               (input)="applyFilters()">-->
-        <input type="text" class="form-control" ngbDatepicker #dh="ngbDatepicker"
-               [(ngModel)]="hireDateFilter"
-               (click)="dh.toggle()"/>
+        <div class="input-group">
+          <input
+            class="form-control"
+            placeholder="dd.mm.yyyy"
+            name="hireDate"
+            [(ngModel)]="hireDateFilter"
+            (input)="applyFilters()"
+            ngbDatepicker
+            #dh="ngbDatepicker"
+          />
+          <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dh.toggle()" type="button"></button>
+        </div>
       </td>
       <td>
         <input type="text" class="form-control"
@@ -80,14 +93,20 @@
         </div>
       </td>
     </tr>
+    <tr *ngIf="!loading && employees.length === 0">
+      <td colspan="6" class="text-center text-muted py-4">
+        <h5>Подобных записей не нашлось</h5>
+        <p class="mb-0">Попробуйте изменить параметры фильтрации</p>
+      </td>
+    </tr>
     <tr *ngFor="let emp of employees">
       <td>{{ emp.departmentName }}</td>
       <td>{{ emp.surname }} {{ emp.name }} {{ emp.secondName }}</td>
-      <td>{{ emp.birthday | date:"dd.mm.yyyy" }}</td>
-      <td>{{ emp.startWorking | date:"dd.mm.yyyy" }}</td>
+      <td>{{ emp.birthday | date:"yyyy-MM-dd" }}</td>
+      <td>{{ emp.startWorking | date:"yyyy-MM-dd" }}</td>
       <td>{{ emp.salary }}</td>
       <td>
-        <button class="btn btn-warning me-2" (click)="openEditModal(emp)">Изменить</button>
+        <button class="btn btn-warning mb-1" (click)="openEditModal(emp)">Изменить</button>
         <button class="btn btn-danger" (click)="openDeleteModal(emp)">Удалить</button>
       </td>
     </tr>

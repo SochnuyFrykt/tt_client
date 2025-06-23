@@ -7,7 +7,6 @@ import {IEmployee} from '../../../models/employee.model';
 import {CreateDepartmentModelComponent} from '../create-department/create-department-model.component';
 import {IDepartment} from '../../../models/department.model';
 import {DepartmentService} from '../../../services/department.service';
-import {EmployeesComponent} from '../../employees/employees.component';
 
 @Component({
   standalone: true,
@@ -29,7 +28,7 @@ export class CreateEmployeeModalComponent implements OnInit {
               private api: ApiService) {}
 
   async ngOnInit() {
-    this.departments = await this.departmentService.getDepartments();
+    await this.loadDepartments();
   }
 
   openCreateDepartmentModel(): void {

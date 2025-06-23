@@ -53,16 +53,19 @@ export class ApiService {
     }
   }
 
-  async getAll<T>(props: IApiProps): Promise<T[]> {
+  async getAll<T>(props: IApiProps, params?: Record<string, string>): Promise<T[]> {
     try {
       const endpoint = props.CustomEndpoint
         ? `${props.NameController}/${props.CustomEndpoint}`
         : props.NameController;
 
+      console.log(JSON.stringify(params));
+
       return await lastValueFrom(
         this.httpClient.get<T[]>(
           `${urlHttps}/${endpoint}`,
-          { headers: this.jsonHeaders }
+          { headers: this.jsonHeaders,
+            params: params}
         ));
     } catch (e) {
       console.error(e);
@@ -70,12 +73,13 @@ export class ApiService {
     }
   }
 
-  async update<T>(props: IApiProps & { id: string}, data: T): Promise<boolean> {
+  async update<T>(props: IApiProps & { id: string | undefined }, data: T): Promise<boolean> {
     try {
+      console.log(JSON.stringify(data))
       await lastValueFrom(
         this.httpClient.put(
-          `${urlHttps}/${props.NameController}/${props.Id}`,
-          data,
+          `${urlHttps}/${props.NameController}/${props.id}`,
+          JSON.stringify(data),
           { headers: this.jsonHeaders }
         ));
 

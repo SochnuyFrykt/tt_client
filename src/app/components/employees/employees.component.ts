@@ -8,6 +8,7 @@ import {CreateEmployeeModalComponent} from '../model-windows/create-model/create
 import {EmployeeService} from '../../services/employee.service';
 import {FormsModule} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, Subject} from 'rxjs';
+import {IRequest} from '../../models/request.model';
 
 @Component({
   standalone: true,
@@ -26,8 +27,8 @@ export class EmployeesComponent implements OnInit {
   loading: boolean = false;
   departmentNameFilter = '';
   fullNameFilter = '';
-  birthDayDateFilter: string | null = null;
-  hireDateFilter: string | null = null;
+  birthDayDateFilter: NgbDateStruct | null = null;
+  hireDateFilter: NgbDateStruct | null = null;
   salaryFilter = '';
 
   filterChanged = new Subject<void>();
@@ -39,7 +40,7 @@ export class EmployeesComponent implements OnInit {
     this.loadEmployees();
 
     this.filterChanged.pipe(
-      debounceTime(300),
+      debounceTime(2000),
       distinctUntilChanged()
     ).subscribe(() => {
       this.loadEmployees();
@@ -47,23 +48,21 @@ export class EmployeesComponent implements OnInit {
   }
 
   applyFilters(): void {
-    this.filterChanged.next();
+    this.filterChanged.next(this.loadEmployees());
   }
 
   loadEmployees(): void {
     this.loading = true;
 
-    const params = {
-      sortBy: this.sortedColumn,
-      sortDirection: this.sortDirection,
+    const params : IRequest = {
       departmentName: this.departmentNameFilter,
-      fullName: this.fullNameFilter,
-      birthDayDate: this.birthDayDateFilter,
-      hireDate: this.hireDateFilter,
+      initials: this.fullNameFilter,
+      birthday: this.formatDate(this.birthDayDateFilter),
+      startWorking: this.formatDate(this.hireDateFilter),
       salary: this.salaryFilter
     };
 
-    this.employeeService.getEmployees()
+    this.employeeService.getEmployees({...params})
       .then(data => {
       this.employees = data;
       this.loading = false;
@@ -120,6 +119,13 @@ export class EmployeesComponent implements OnInit {
     });
 
     modalRef.componentInstance.employee = {...employee};
+
+    modalRef.result.then((result) => {
+        if (result === 'edit') {
+          this.loadEmployees();
+        }
+      }, () => {}
+    );
   }
 
   openDeleteModal(employee: IEmployee): void {
@@ -137,5 +143,14 @@ export class EmployeesComponent implements OnInit {
         }
       }, () => {}
     );
+  }
+
+  private formatDate(dateStruct: NgbDateStruct | null | undefined): string | null {
+    if (dateStruct) {
+      const month = dateStruct.month.toString().padStart(2, '0');
+      const day = dateStruct.day.toString().padStart(2, '0');
+      return `${dateStruct.year}-${month}-${day}T00:00:00`;
+    }
+    return null; // Важно вернуть undefined, а не пустую строку
   }
 }
