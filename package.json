@@ -4,9 +4,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "concurrently \"npm:start:frontend\" \"npm:start:backend\"",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "start:frontend": "ng serve",
+    "start:backend": "cd net8.0 && dotnet Test.dll"
   },
   "private": true,
   "dependencies": {
